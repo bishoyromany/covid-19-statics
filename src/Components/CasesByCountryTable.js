@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import {Table,TableBody, TableCell, TableContainer, TableHead, 
-    TablePagination, TableRow, Paper, Avatar} from '@material-ui/core';
+    TablePagination, TableRow, Paper, Avatar, TextField, InputBase, IconButton} from '@material-ui/core';
 import {prettyDate} from './../Helpers/Formatter'
+import SearchIcon from '@material-ui/icons/Search';
 
 
 const columns = [
@@ -68,7 +69,8 @@ const CasesByCountryTable = ({countriesTotal}) => {
     const [rows, setRows] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] =useState(10);
-  
+    const [searchCountry, setSearchCountery] = useState('');
+
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
     };
@@ -104,10 +106,28 @@ const CasesByCountryTable = ({countriesTotal}) => {
         handleCountriesData();
     }, [countriesTotal]);
 
+    const searchCountries = e => {
+        if(e){
+            e.preventDefault();
+        }
+    }
+
     return(
         <div id="CountriesCasesTable">  
             <h1 className="text-center">Cases Per Country</h1>
             <Paper>
+                <Paper component="form" className="searchContainer">
+                    <InputBase
+                        value={searchCountry}
+                        onChange={e => setSearchCountery(e.target.value)}
+                        placeholder="Search By Country Name"
+                        inputProps={{ 'aria-label': 'Search By Country Name' }}
+                    />
+                    <IconButton type="submit" aria-label="search">
+                        <SearchIcon onSubmit={searchCountries} />
+                    </IconButton>
+                </Paper>
+
                 <TableContainer className="countries-table">
                     <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -124,7 +144,10 @@ const CasesByCountryTable = ({countriesTotal}) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                        {rows.filter(item => {  
+                            return searchCountry.length < 1 || item.Country.props.children[0].props.children[0].toLowerCase().indexOf(searchCountry.toLowerCase()) >= 0;
+                        })
+                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                         return (
                             <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                             {columns.map((column) => {
