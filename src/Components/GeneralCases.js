@@ -115,40 +115,52 @@ const GeneralCases = ({generalCases, historyCases}) => {
     // fix history to be chartable
     useEffect(() => {
         if(historyCases.cases != undefined){
-            let cases = [];
-            for(let x in historyCases.cases){
-                cases.push([x, historyCases.cases[x]]);
-            }
-            setHistoryCases(cases);
+            let data = [];
 
-            let deaths = [];
-            for(let x in historyCases.deaths){
-                deaths.push([x, historyCases.deaths[x]]);
-            }
-            setHistroyDeaths(deaths);
-
-            let recovered = [];
-            for(let x in historyCases.recovered){
-                recovered.push([x, historyCases.recovered[x]]);
-            }
-            setHistroyRecovered(deaths);
-
-            setChartData([
-                {
-                    label: 'Cases',
-                    data: cases
-                },
-                {
-                    label: 'Deaths',
-                    data: deaths
-                },
-                {
-                    label: 'Recovered',
-                    data: recovered
+            if(checked.includes('recovered')){
+                let recovered = [];
+                for(let x in historyCases.recovered){
+                    recovered.push([x, historyCases.recovered[x]]);
                 }
-            ]);
+                setHistroyRecovered(recovered);
+                data.push({
+                    label : 'Recovered',
+                    color : 'green',
+                    data : recovered
+                });
+            }
+
+            if(checked.includes('deaths')){
+                let deaths = [];
+                for(let x in historyCases.deaths){
+                    deaths.push([x, historyCases.deaths[x]]);
+                }
+                setHistroyDeaths(deaths);
+                data.push({
+                    label : 'Deaths',
+                    color : 'red',
+                    data : deaths
+                });
+            }
+
+
+            if(checked.includes('cases')){
+                let cases = [];
+                for(let x in historyCases.cases){
+                    cases.push([x, historyCases.cases[x]]);
+                }
+                setHistoryCases(cases);
+                data.push({
+                    label : 'Cases',
+                    color : 'orange',
+                    data : cases
+                });
+
+            }
+
+            setChartData(data);
         }   
-    }, [historyCases]);
+    }, [historyCases, checked]);
 
     
     let axes = useMemo(() => [
