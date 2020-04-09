@@ -12,6 +12,7 @@ import GeneralCases from './../Components/GeneralCases'
 const Home = ({API}) => {
     const[countriesTotal, setCountriesTotal] = useState([]);
     const[generalCases, setGeneralCases] = useState([]);
+    const[historyCases, setHistoryCases] = useState([]);
 
     const getCountriesData = () => {
         axios.get(API.COUNTRIES_TOTAL)
@@ -27,6 +28,13 @@ const Home = ({API}) => {
         }).catch(e => {
             console.log(e);
         });
+
+        axios.get(API.HISTORY_CASES)
+        .then(r => {
+            setHistoryCases(r.data);
+        }).catch(e => {
+            console.log(e);
+        });
     }
 
     useEffect(() => {
@@ -37,7 +45,7 @@ const Home = ({API}) => {
         <div id="Home">  
             <Container maxWidth="lg">
                 <h1 className="text-center">Covid-19 Statics</h1>
-                <GeneralCases generalCases={generalCases} />
+                <GeneralCases generalCases={generalCases} historyCases={historyCases} />
                 <CasesByCountryTable countriesTotal={countriesTotal} />
             </Container>
         </div>

@@ -34,4 +34,25 @@
         }
     }
 
+
+    .general-cases{
+        .general-paper{
+            height : 100%;
+        }
+    
+        .homeChartContainerParent{
+            overflow-x: auto;
+            overflow-y: hidden;
+            z-index : 2;
+            .homeChartContainer{
+                width : 3000px;
+                height: 500px;
+                padding : 20px;
+                svg{
+                    overflow : visible !important;
+                }
+            }
+        }
+    }
+
 }

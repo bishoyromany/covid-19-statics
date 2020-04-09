@@ -1,15 +1,29 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useMemo} from 'react'
 
-import {Paper, Grid, List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, IconButton, Checkbox} from '@material-ui/core';
-import CommentIcon from '@material-ui/icons/Comment';
+import {Paper, Grid} from '@material-ui/core';
+import { Chart } from 'react-charts'
+
+import GeneralCasesRightSide from './GeneralCasesRightSide'
 import {prettyDate} from './../Helpers/Formatter'
 
-const GeneralCases = ({generalCases}) => {
+const GeneralCases = ({generalCases, historyCases}) => {
+    // allowed keys
     const [allowedGeneralCasesKeys, setAllowedGeneralCasesKeys] = useState([]);
     const [allowedGeneralCasesChartKeys, setAllowedGeneralCasesChartKeys] = useState([]);
-    const [checked, setChecked] = useState([]);
-    const [cases, setCases] = useState([]);
 
+    // chart parts
+    const [histroyCasesChart , setHistoryCases] = useState([]);
+    const [histroyDeathsChart , setHistroyDeaths] = useState([]);
+    const [histroyRecoveredChart , setHistroyRecovered] = useState([]);
+
+    // chart data
+    const [chartData, setChartData] = useState([]);
+
+
+    // selected keys for chart
+    const [checked, setChecked] = useState([]);
+
+    // handle select key
     const handleToggle = (value) => () => {
         const currentIndex = checked.indexOf(value);
         const newChecked = [...checked];
@@ -21,7 +35,8 @@ const GeneralCases = ({generalCases}) => {
         setChecked(newChecked);
     };
 
-    useEffect(() => {
+    // set allowed keys
+    useEffect(() => {   
         if(generalCases.cases != undefined){
             setAllowedGeneralCasesKeys([
                 {
@@ -95,46 +110,73 @@ const GeneralCases = ({generalCases}) => {
             setChecked(['cases', 'deaths', 'recovered']);
         }
     }, [generalCases]);
+    
+
+    // fix history to be chartable
+    useEffect(() => {
+        if(historyCases.cases != undefined){
+            let cases = [];
+            for(let x in historyCases.cases){
+                cases.push([x, historyCases.cases[x]]);
+            }
+            setHistoryCases(cases);
+
+            let deaths = [];
+            for(let x in historyCases.deaths){
+                deaths.push([x, historyCases.deaths[x]]);
+            }
+            setHistroyDeaths(deaths);
+
+            let recovered = [];
+            for(let x in historyCases.recovered){
+                recovered.push([x, historyCases.recovered[x]]);
+            }
+            setHistroyRecovered(deaths);
+
+            setChartData([
+                {
+                    label: 'Cases',
+                    data: cases
+                },
+                {
+                    label: 'Deaths',
+                    data: deaths
+                },
+                {
+                    label: 'Recovered',
+                    data: recovered
+                }
+            ]);
+        }   
+    }, [historyCases]);
+
+    
+    let axes = useMemo(() => [
+        { primary: true, type: 'ordinal', position: 'bottom' },
+        { type: 'linear', position: 'left' }
+    ], [])
+    
+    let lineChart = chartData.length > 0 ? (
+        <div className="homeChartContainer">
+          <Chart data={chartData} axes={axes} tooltip />
+        </div>
+    ) : '';
 
     return(
         <div className="general-cases">
             <h1 className="text-center">General Statics</h1>
             <Grid container spacing={2}>
                 <Grid item xs={6}>
-                    <Paper>xs=6</Paper>
+                    <Paper className="homeChartContainerParent">
+                        {lineChart}
+                    </Paper>
                 </Grid>
                 <Grid item xs={6}>
-                    <Paper>
-                        <List>
-                            {allowedGeneralCasesKeys.map((value) => {
-                                const labelId = `checkbox-list-label-${value.id}`;
-
-                                return (
-                                    <ListItem key={value.id} role={undefined} dense button={allowedGeneralCasesChartKeys.includes(value.id)} onClick={allowedGeneralCasesChartKeys.includes(value.id) ? handleToggle(value.id) : ''}>
-                                        <ListItemIcon>
-                                            {
-                                                allowedGeneralCasesChartKeys.includes(value.id) ? (
-                                                    <Checkbox
-                                                        edge="start"
-                                                        checked={checked.indexOf(value.id) !== -1}
-                                                        tabIndex={-1}
-                                                        disableRipple
-                                                        inputProps={{ 'aria-labelledby': labelId }}
-                                                    />
-                                                ) : ''
-                                            }
-         
-                                        </ListItemIcon>
-                                        <ListItemText id={labelId} primary={value.name} />
-                                        <ListItemSecondaryAction>
-                                        <IconButton edge="end" aria-label="comments">
-                                            {value.format ? value.format(generalCases[value.id]) : generalCases[value.id]}
-                                        </IconButton>
-                                        </ListItemSecondaryAction>
-                                    </ListItem>
-                                );
-                            })}
-                        </List>
+                    <Paper className="general-paper">
+                        <GeneralCasesRightSide generalCases={generalCases} 
+                        allowedGeneralCasesChartKeys={allowedGeneralCasesChartKeys} 
+                        allowedGeneralCasesKeys={allowedGeneralCasesKeys}
+                        handleToggle={handleToggle} checked={checked} />
                     </Paper>
                 </Grid>
             </Grid>
