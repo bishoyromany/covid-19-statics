@@ -10,6 +10,8 @@ import CasesByCountryTable from './../Components/CasesByCountryTable'
 import GeneralCases from './../Components/GeneralCases'
 import CountriesCasesMap from './../Components/CountriesCasesMap'
 
+import header_background from './../images/header_background.jpg'
+
 const Home = ({API}) => {
     const getColorForPercentage = function(pct) {
         if(pct == 0){
@@ -63,8 +65,11 @@ const Home = ({API}) => {
 
     return(
         <div id="Home">  
+            <h1 className="text-center homePageHeader" style={{
+                background : `url(${header_background}) fixed no-repeat center center`,
+                backgroundSize : 'cover'
+            }}><span>Covid-19 Online Updates</span></h1>
             <Container maxWidth="lg">
-                <h1 className="text-center">Covid-19 Statics</h1>
                 <GeneralCases generalCases={generalCases} historyCases={historyCases} />
                 <CountriesCasesMap setTooltipContent={setMapTooltipContent} countriesTotal={countriesTotal} />
                 <ReactTooltip>{mapToolTipContent}</ReactTooltip>

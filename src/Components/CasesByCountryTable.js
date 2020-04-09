@@ -114,7 +114,7 @@ const CasesByCountryTable = ({countriesTotal}) => {
 
     return(
         <div id="CountriesCasesTable">  
-            <h1 className="text-center">Cases Per Country</h1>
+            {/* <h1 className="text-center">Cases Per Country</h1> */}
             <Paper>
                 <Paper component="form" className="searchContainer">
                     <InputBase
