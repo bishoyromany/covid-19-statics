@@ -4,6 +4,7 @@ import {Paper, Grid} from '@material-ui/core';
 import { Chart } from 'react-charts'
 
 import GeneralCasesRightSide from './GeneralCasesRightSide'
+import GeneralCasesChart from './GeneralCasesChart'
 import {prettyDate} from './../Helpers/Formatter'
 
 const GeneralCases = ({generalCases, historyCases}) => {
@@ -162,17 +163,6 @@ const GeneralCases = ({generalCases, historyCases}) => {
         }   
     }, [historyCases, checked]);
 
-    
-    let axes = useMemo(() => [
-        { primary: true, type: 'ordinal', position: 'bottom' },
-        { type: 'linear', position: 'left' }
-    ], [])
-    
-    let lineChart = chartData.length > 0 ? (
-        <div className="homeChartContainer">
-          <Chart data={chartData} axes={axes} tooltip />
-        </div>
-    ) : '';
 
     return(
         <div className="general-cases">
@@ -180,7 +170,7 @@ const GeneralCases = ({generalCases, historyCases}) => {
             <Grid container spacing={2}>
                 <Grid item xs={6}>
                     <Paper className="homeChartContainerParent">
-                        {lineChart}
+                        <GeneralCasesChart chartData={chartData} />
                     </Paper>
                 </Grid>
                 <Grid item xs={6}>
