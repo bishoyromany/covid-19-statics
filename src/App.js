@@ -13,6 +13,8 @@ function App() {
     'API' : {
       // 'COUNTRIES_TOTAL' : 'https://corona.lmao.ninja/countries',
       'COUNTRIES_TOTAL' : 'http://localhost/covid-statics/src/Caches/countries.json',
+      // 'GENERAL_CASES' : 'https://corona.lmao.ninja/countries',
+      'GENERAL_CASES' : 'http://localhost/covid-statics/src/Caches/all.json',
     }
   };
 
