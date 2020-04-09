@@ -8,6 +8,7 @@ import './Sass/App.scss';
 
 // pages
 import Home from './Pages/Home'
+import Footer from './Components/Footer'
 function App() {
   const config = {
     'API' : {
@@ -28,6 +29,7 @@ function App() {
             <Home API={config.API} />
           </Route>
         </Switch>
+        <Footer />
       </div>
     </Router>
   );

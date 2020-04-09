@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import {Table,TableBody, TableCell, TableContainer, TableHead, 
-    TablePagination, TableRow, Paper, Avatar, TextField, InputBase, IconButton} from '@material-ui/core';
+    TablePagination, TableRow, Paper, Avatar, InputBase, IconButton} from '@material-ui/core';
 import {prettyDate} from './../Helpers/Formatter'
 import SearchIcon from '@material-ui/icons/Search';
+import Skeleton from 'react-loading-skeleton';
 
 
 const columns = [
@@ -96,6 +97,8 @@ const CasesByCountryTable = ({countriesTotal}) => {
                 TotalRecovered : item.recovered,
                 LastUpdate : item.updated,
             });
+
+            return item;
         });
 
         setRows(customRows);
@@ -127,43 +130,47 @@ const CasesByCountryTable = ({countriesTotal}) => {
                         <SearchIcon onSubmit={searchCountries} />
                     </IconButton>
                 </Paper>
+                {
+                    countriesTotal.length > 0 ? 
+                        <TableContainer className="countries-table">
+                            <Table stickyHeader aria-label="sticky table">
+                                <TableHead>
+                                    <TableRow>
+                                    {columns.map((column) => (
+                                        <TableCell
+                                        key={column.id}
+                                        align={column.align}
+                                        style={{ minWidth: column.minWidth }}
+                                        >
+                                        {column.label}
+                                        </TableCell>
+                                    ))}
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {rows.filter(item => {  
+                                        return searchCountry.length < 1 || item.Country.props.children[0].props.children[0].toLowerCase().indexOf(searchCountry.toLowerCase()) >= 0;
+                                    })
+                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                                    return (
+                                        <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                                        {columns.map((column) => {
+                                            const value = row[column.id];
+                                            return (
+                                            <TableCell key={column.id+Math.random()} align={column.align}>
+                                                {column.format && typeof value === 'number' ? column.format(value) : value}
+                                            </TableCell>
+                                            );
+                                        })}
+                                        </TableRow>
+                                    );
+                                    })}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    : <Skeleton height={800} />
+                }
 
-                <TableContainer className="countries-table">
-                    <Table stickyHeader aria-label="sticky table">
-                    <TableHead>
-                        <TableRow>
-                        {columns.map((column) => (
-                            <TableCell
-                            key={column.id}
-                            align={column.align}
-                            style={{ minWidth: column.minWidth }}
-                            >
-                            {column.label}
-                            </TableCell>
-                        ))}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {rows.filter(item => {  
-                            return searchCountry.length < 1 || item.Country.props.children[0].props.children[0].toLowerCase().indexOf(searchCountry.toLowerCase()) >= 0;
-                        })
-                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                        return (
-                            <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                            {columns.map((column) => {
-                                const value = row[column.id];
-                                return (
-                                <TableCell key={column.id+Math.random()} align={column.align}>
-                                    {column.format && typeof value === 'number' ? column.format(value) : value}
-                                </TableCell>
-                                );
-                            })}
-                            </TableRow>
-                        );
-                        })}
-                    </TableBody>
-                    </Table>
-                </TableContainer>
                 <TablePagination
                     rowsPerPageOptions={[10, 25, 100]}
                     component="div"

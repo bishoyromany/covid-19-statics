@@ -1,4 +1,4 @@
-import React , {useEffect} from 'react'
+import React from 'react'
 import {List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, IconButton, Checkbox} from '@material-ui/core';
 
 const GeneralCasesRightSide = ({

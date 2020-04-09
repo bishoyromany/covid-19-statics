@@ -1,11 +1,11 @@
-import React, {useState, useEffect, useMemo} from 'react'
+import React, {useState, useEffect} from 'react'
 
 import {Paper, Grid} from '@material-ui/core';
-import { Chart } from 'react-charts'
 
 import GeneralCasesRightSide from './GeneralCasesRightSide'
 import GeneralCasesChart from './GeneralCasesChart'
 import {prettyDate} from './../Helpers/Formatter'
+import Skeleton from 'react-loading-skeleton';
 
 const GeneralCases = ({generalCases, historyCases}) => {
     // allowed keys
@@ -170,15 +170,23 @@ const GeneralCases = ({generalCases, historyCases}) => {
             <Grid container spacing={2}>
                 <Grid item xs={6}>
                     <Paper className="homeChartContainerParent">
-                        <GeneralCasesChart chartData={chartData} />
+                        {
+                            generalCases.length < 1 ?
+                            <Skeleton height={500} /> 
+                            : <GeneralCasesChart chartData={chartData} />
+                        }
                     </Paper>
                 </Grid>
                 <Grid item xs={6}>
                     <Paper className="general-paper">
-                        <GeneralCasesRightSide generalCases={generalCases} 
-                        allowedGeneralCasesChartKeys={allowedGeneralCasesChartKeys} 
-                        allowedGeneralCasesKeys={allowedGeneralCasesKeys}
-                        handleToggle={handleToggle} checked={checked} />
+                        {
+                            generalCases.length < 1 ?
+                            <Skeleton height={49} count={10} /> 
+                            : <GeneralCasesRightSide generalCases={generalCases} 
+                            allowedGeneralCasesChartKeys={allowedGeneralCasesChartKeys} 
+                            allowedGeneralCasesKeys={allowedGeneralCasesKeys}
+                            handleToggle={handleToggle} checked={checked} />
+                        }
                     </Paper>
                 </Grid>
             </Grid>

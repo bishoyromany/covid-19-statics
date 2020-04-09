@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import './../Sass/Home.scss'
 
-import {Container} from '@material-ui/core';
+import {Container, LinearProgress} from '@material-ui/core';
 
 import axios from 'axios'
 import ReactTooltip from "react-tooltip";
+import Skeleton from 'react-loading-skeleton';
+
 
 import CasesByCountryTable from './../Components/CasesByCountryTable'
 import GeneralCases from './../Components/GeneralCases'
@@ -38,6 +40,7 @@ const Home = ({API}) => {
                 let cc = getColorForPercentage(percent)
                 d.color = cc;
                 withColors.push(d);
+                return d;
             });
             setCountriesTotal(withColors);
         }).catch(e => {
@@ -61,10 +64,13 @@ const Home = ({API}) => {
 
     useEffect(() => {
         getCountriesData();
-    }, []);
+    });
+
+    const loadingProgress = countriesTotal.length < 1 || generalCases.length < 1 || historyCases.length < 1  ? <LinearProgress className="progress" /> : '';
 
     return(
         <div id="Home">  
+            {loadingProgress}
             <h1 className="text-center homePageHeader" style={{
                 background : `url(${header_background}) fixed no-repeat center center`,
                 backgroundSize : 'cover'
