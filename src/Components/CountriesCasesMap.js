@@ -1,5 +1,5 @@
 import React, {memo} from 'react'
-import { scaleLinear } from "d3-scale";
+import { scaleLinear, scaleQuantize, scalePow } from "d3-scale";
 import {
     ZoomableGroup,
     ComposableMap,
@@ -14,8 +14,8 @@ const geoUrl =
 
 
 const colorScale = scaleLinear()
-  .domain([0.29, 0.68])
-  .range(["#ffedea", "#ff5233"]);
+    .domain([0, 50, 200, 500 , 1000,1000000000])
+    .range(["#D2E3FC", '#8AB4F8', '#4285F4' , '#1967D2' , "#174EA6", "#174EA6"]);
 
 const CountriesCasesMap = ({ setTooltipContent, countriesTotal }) => {
     return (
@@ -69,6 +69,7 @@ const CountriesCasesMap = ({ setTooltipContent, countriesTotal }) => {
                                 onMouseLeave={() => {
                                     setTooltipContent("");
                                 }}
+                                stroke="#D6D6DA"
                                 style={{
                                     // default: {
                                     //     fill: "#D6D6DA",
@@ -83,7 +84,7 @@ const CountriesCasesMap = ({ setTooltipContent, countriesTotal }) => {
                                         outline: "none"
                                     }
                                 }}
-                                fill={country.length > 0 ? country[0].color : "green"}
+                                fill={country.length > 0 ? colorScale(country[0].casesPerOneMillion) : "#D2E3FC"}
                             />
                         )
                     })

@@ -11,14 +11,7 @@ import GeneralCases from './../Components/GeneralCases'
 import CountriesCasesMap from './../Components/CountriesCasesMap'
 
 const Home = ({API}) => {
-    const scaleColors = [
-        { pct: 1.0, color: { r: 0xff, g: 0x00, b: 0 } },
-        { pct: 0.5, color: { r: 0xff, g: 0xff, b: 0 } },
-        { pct: 0.0, color: { r: 0x00, g: 0xff, b: 0 } } 
-    ];
-    
     const getColorForPercentage = function(pct) {
-        // rgba(255, 0, 0, 1)
         if(pct == 0){
             return 'green';
         }
@@ -62,9 +55,6 @@ const Home = ({API}) => {
         }).catch(e => {
             console.log(e);
         });
-
-
-
     }
 
     useEffect(() => {
@@ -76,9 +66,9 @@ const Home = ({API}) => {
             <Container maxWidth="lg">
                 <h1 className="text-center">Covid-19 Statics</h1>
                 <GeneralCases generalCases={generalCases} historyCases={historyCases} />
-                <CasesByCountryTable countriesTotal={countriesTotal} />
                 <CountriesCasesMap setTooltipContent={setMapTooltipContent} countriesTotal={countriesTotal} />
                 <ReactTooltip>{mapToolTipContent}</ReactTooltip>
+                <CasesByCountryTable countriesTotal={countriesTotal} />
             </Container>
         </div>
     )
