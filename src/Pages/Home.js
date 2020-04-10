@@ -5,8 +5,6 @@ import {Container, LinearProgress} from '@material-ui/core';
 
 import axios from 'axios'
 import ReactTooltip from "react-tooltip";
-import Skeleton from 'react-loading-skeleton';
-
 
 import CasesByCountryTable from './../Components/CasesByCountryTable'
 import GeneralCases from './../Components/GeneralCases'
@@ -15,6 +13,9 @@ import CountriesCasesMap from './../Components/CountriesCasesMap'
 import header_background from './../images/header_background.jpg'
 
 const Home = ({API}) => {
+    // auto refresh data time
+    const waitTime = 180;
+
     const getColorForPercentage = function(pct) {
         if(pct == 0){
             return 'green';
@@ -63,8 +64,12 @@ const Home = ({API}) => {
     }
 
     useEffect(() => {
+        // auto update
         getCountriesData();
-    });
+        setInterval(() => {
+            getCountriesData();
+        }, waitTime * 1000)
+    }, []);
 
     const loadingProgress = countriesTotal.length < 1 || generalCases.length < 1 || historyCases.length < 1  ? <LinearProgress className="progress" /> : '';
 
@@ -76,8 +81,8 @@ const Home = ({API}) => {
                 backgroundSize : 'cover'
             }}><span>Covid-19 Online Updates</span></h1>
             <Container maxWidth="lg">
-                <GeneralCases generalCases={generalCases} historyCases={historyCases} />
-                <CountriesCasesMap setTooltipContent={setMapTooltipContent} countriesTotal={countriesTotal} />
+                <GeneralCases generalCases={generalCases} countriesTotal={countriesTotal} historyCases={historyCases} />
+                {/* <CountriesCasesMap setTooltipContent={setMapTooltipContent} countriesTotal={countriesTotal} /> */}
                 <ReactTooltip>{mapToolTipContent}</ReactTooltip>
                 <CasesByCountryTable countriesTotal={countriesTotal} />
             </Container>

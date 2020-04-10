@@ -4,6 +4,7 @@ import {Paper, Grid} from '@material-ui/core';
 
 import GeneralCasesRightSide from './GeneralCasesRightSide'
 import GeneralCasesChart from './GeneralCasesChart'
+import PaperOptions from './PaperOptions'
 import {prettyDate} from './../Helpers/Formatter'
 import Skeleton from 'react-loading-skeleton';
 
@@ -166,10 +167,11 @@ const GeneralCases = ({generalCases, historyCases}) => {
 
     return(
         <div className="general-cases">
-            <h1 className="text-center">General Statics</h1>
+            {/* <h1 className="text-center">General Statics</h1> */}
             <Grid container spacing={2}>
-                <Grid item xs={6}>
-                    <Paper className="homeChartContainerParent">
+                <Grid item xs={12}>
+                    <Paper className={'homeChartContainerParent'} id="HomeChartContainer">
+                        <PaperOptions ID="HomeChartContainer" />
                         {
                             generalCases.length < 1 ?
                             <Skeleton height={500} /> 
@@ -177,7 +179,7 @@ const GeneralCases = ({generalCases, historyCases}) => {
                         }
                     </Paper>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12}>
                     <Paper className="general-paper">
                         {
                             generalCases.length < 1 ?

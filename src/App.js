@@ -10,19 +10,33 @@ import './Sass/App.scss';
 import Home from './Pages/Home'
 import Footer from './Components/Footer'
 function App() {
-  const config = {
-    'API' : {
-      // 'COUNTRIES_TOTAL' : 'https://corona.lmao.ninja/countries',
-      'COUNTRIES_TOTAL' : 'http://localhost/covid-statics/src/Caches/countries.json',
-      // 'GENERAL_CASES' : 'https://corona.lmao.ninja/countries',
-      'GENERAL_CASES' : 'http://localhost/covid-statics/src/Caches/all.json',
-      // 'HISTORY_CASES' : 'https://corona.lmao.ninja/v2/historical/all?lastdays=30',
-      'HISTORY_CASES' : 'http://localhost/covid-statics/src/Caches/history.json',
-    }
-  };
+  const dev = true;
+
+  let config;
+  const base = '/covid-statics';
+
+  if(dev){
+    config = {
+      'API' : {
+        'COUNTRIES_TOTAL' : 'http://localhost/covid-statics/src/Caches/countries.json',
+        'GENERAL_CASES' : 'http://localhost/covid-statics/src/Caches/all.json',
+        'HISTORY_CASES' : 'http://localhost/covid-statics/src/Caches/history.json',
+      }
+    };
+  }else{
+    config = {
+      'API' : {
+        'COUNTRIES_TOTAL' : 'https://corona.lmao.ninja/countries',
+        'GENERAL_CASES' : 'https://corona.lmao.ninja/all',
+        'HISTORY_CASES' : 'https://corona.lmao.ninja/v2/historical/all?lastdays=30',
+      }
+    };
+  }
+
+
 
   return (
-    <Router>
+    <Router basename={base}>
       <div>
         <Switch>
           <Route path="/">

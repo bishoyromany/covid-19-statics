@@ -11,6 +11,14 @@
         -moz-box-shadow: -1px 2px 54px -24px rgba(0,0,0,0.75);
         box-shadow: -1px 2px 54px -24px rgba(0,0,0,0.75);
     }
+    .MuiListItemIcon-root{
+        min-width: 30px;
+    }
+    .MuiListItemText-root{
+        .MuiTypography-root{
+            font-size: 25px;
+        }
+    }
 
     .homePageHeader{
         color : #FFF;
@@ -31,7 +39,6 @@
     #CountriesCasesTable{
         margin : 80px 0px;
         .countries-table{
-            max-height : 90vh;
             td{
                 cursor: pointer;
             }
@@ -71,11 +78,9 @@
         }
         .homeChartContainerParent{
             min-height : 500px;
-            overflow-x: auto;
-            overflow-y: hidden;
             z-index : 2;
             .homeChartContainer{
-                width : 3000px;
+                width : 96%;
                 height: 500px;
                 padding : 20px;
                 svg{
@@ -87,5 +92,35 @@
 
     .CountriesCasesMap{
 
+    }
+
+    .PaperOptions{
+        .fullPage{
+            text-align : right;
+            svg{
+                font-size : 40px;
+            }
+        }
+
+        .share{
+            text-align : left;
+            svg{
+                font-size : 40px;
+            }
+        }
+
+    }
+
+    .fullPageEnable{
+        width : 100vw !important;
+        min-height : 100vh !important;
+        // overflow : auto !important;
+        position : fixed !important;
+        top : 0px !important;
+        left : 0px !important;
+        z-index : 111111111111111111111111111111111111 !important;
+        .homeChartContainer{
+            height: 90vh !important;
+        }
     }
 }
