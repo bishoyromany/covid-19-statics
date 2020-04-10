@@ -41,11 +41,11 @@ const GeneralCases = ({generalCases, historyCases, showFullDetails}) => {
     useEffect(() => {   
         if(generalCases.cases != undefined){
             const allowedCasesParts = [
-                {
-                    id : 'updated',
-                    name : 'Last Update',
-                    format : (value) => 'Since '+ prettyDate(value), 
-                },
+                // {
+                //     id : 'updated',
+                //     name : 'Last Update',
+                //     format : (value) => 'Since '+ prettyDate(value), 
+                // },
                 {
                     id : 'cases',
                     name : 'Cases',

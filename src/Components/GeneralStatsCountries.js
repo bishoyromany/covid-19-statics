@@ -68,7 +68,7 @@ export default function GeneralStatsCountries({setGeneralCases, countriesTotal, 
             <PaperOptions ID="GeneralStatsCountries" />
             <Grid container spacing={2}>
 
-                <Grid item md={3} xs={6}>
+                <Grid item md={3} xs={12}>
                     <h3>Select Country Of Stats</h3>
                     <SelectSearch
                         name="countries"
@@ -94,7 +94,7 @@ export default function GeneralStatsCountries({setGeneralCases, countriesTotal, 
                     />
                 </Grid>
 
-                <Grid item md={3} xs={6}>
+                <Grid item md={3} xs={12}>
                     <Paper>
                         <div className="box cases">
                             <span className="number">
@@ -107,7 +107,7 @@ export default function GeneralStatsCountries({setGeneralCases, countriesTotal, 
                     </Paper>
                 </Grid>
                 
-                <Grid item md={3} xs={6}>
+                <Grid item md={3} xs={12}>
                     <Paper>
                         <div className="box recovered">
                             <span className="number">
@@ -120,7 +120,7 @@ export default function GeneralStatsCountries({setGeneralCases, countriesTotal, 
                     </Paper>
                 </Grid>
 
-                <Grid item md={3} xs={6}>
+                <Grid item md={3} xs={12}>
                     <Paper>
                         <div className="box deaths">
                             <span className="number">
