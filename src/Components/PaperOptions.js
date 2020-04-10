@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/Button';
 import ReactTooltip from "react-tooltip";
 
+
 const PaperOptions = ({ID}) => {
     const [fullPage, setFullPage] = useState(false);
 

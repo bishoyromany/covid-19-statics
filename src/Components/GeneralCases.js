@@ -8,7 +8,7 @@ import PaperOptions from './PaperOptions'
 import {prettyDate} from './../Helpers/Formatter'
 import Skeleton from 'react-loading-skeleton';
 
-const GeneralCases = ({generalCases, historyCases}) => {
+const GeneralCases = ({generalCases, historyCases, showFullDetails}) => {
     // allowed keys
     const [allowedGeneralCasesKeys, setAllowedGeneralCasesKeys] = useState([]);
     const [allowedGeneralCasesChartKeys, setAllowedGeneralCasesChartKeys] = useState([]);
@@ -40,7 +40,7 @@ const GeneralCases = ({generalCases, historyCases}) => {
     // set allowed keys
     useEffect(() => {   
         if(generalCases.cases != undefined){
-            setAllowedGeneralCasesKeys([
+            const allowedCasesParts = [
                 {
                     id : 'updated',
                     name : 'Last Update',
@@ -101,12 +101,16 @@ const GeneralCases = ({generalCases, historyCases}) => {
                     name : 'Tests Per One Million',
                     format : (value) => value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
                 },
-                {
-                    id : 'affectedCountries',
-                    name : 'Affected Countries',
-                    format : (value) => value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-                },
-            ]);
+            ]
+
+            if(generalCases.affectedCountries != undefined){
+                // allowedCasesParts.push({
+                //     id : 'affectedCountries',
+                //     name : 'Affected Countries',
+                //     format : (value) => value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+                // });
+            }
+            setAllowedGeneralCasesKeys(allowedCasesParts);
 
             setAllowedGeneralCasesChartKeys(['cases', 'deaths', 'recovered']);
             setChecked(['cases', 'deaths', 'recovered']);
@@ -145,7 +149,6 @@ const GeneralCases = ({generalCases, historyCases}) => {
                 });
             }
 
-
             if(checked.includes('cases')){
                 let cases = [];
                 for(let x in historyCases.cases){
@@ -169,6 +172,22 @@ const GeneralCases = ({generalCases, historyCases}) => {
         <div className="general-cases">
             {/* <h1 className="text-center">General Statics</h1> */}
             <Grid container spacing={2}>
+                {
+                    showFullDetails ? 
+                    <Grid item xs={12}>
+                        <Paper className="general-paper">
+                            {
+                                generalCases.length < 1 ?
+                                <Skeleton height={49} count={10} /> 
+                                : <GeneralCasesRightSide generalCases={generalCases} 
+                                allowedGeneralCasesChartKeys={allowedGeneralCasesChartKeys} 
+                                allowedGeneralCasesKeys={allowedGeneralCasesKeys}
+                                handleToggle={handleToggle} checked={checked} />
+                            }
+                        </Paper>
+                    </Grid> : ''
+                }
+
                 <Grid item xs={12}>
                     <Paper className={'homeChartContainerParent'} id="HomeChartContainer">
                         <PaperOptions ID="HomeChartContainer" />
@@ -176,18 +195,6 @@ const GeneralCases = ({generalCases, historyCases}) => {
                             generalCases.length < 1 ?
                             <Skeleton height={500} /> 
                             : <GeneralCasesChart chartData={chartData} />
-                        }
-                    </Paper>
-                </Grid>
-                <Grid item xs={12}>
-                    <Paper className="general-paper">
-                        {
-                            generalCases.length < 1 ?
-                            <Skeleton height={49} count={10} /> 
-                            : <GeneralCasesRightSide generalCases={generalCases} 
-                            allowedGeneralCasesChartKeys={allowedGeneralCasesChartKeys} 
-                            allowedGeneralCasesKeys={allowedGeneralCasesKeys}
-                            handleToggle={handleToggle} checked={checked} />
                         }
                     </Paper>
                 </Grid>

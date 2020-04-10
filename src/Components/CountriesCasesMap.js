@@ -45,7 +45,7 @@ const CountriesCasesMap = ({ setTooltipContent, countriesTotal }) => {
                                                     <br /> Total Deaths : {country.deaths} 
                                                     <br /> Total Recovered : {country.recovered} 
                                                     <br /> Today Cases : {country.todayCases} 
-                                                    <br /> Today Deaths : {country.cases} 
+                                                    <br /> Today Deaths : {country.todayDeaths} 
                                                     <br /> Tests : {country.tests} 
                                                     <br /> Active Cases : {country.active} 
                                                     <br /> Critical Cases : {country.critical} 

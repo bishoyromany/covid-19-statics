@@ -8,6 +8,7 @@ import ReactTooltip from "react-tooltip";
 
 import CasesByCountryTable from './../Components/CasesByCountryTable'
 import GeneralCases from './../Components/GeneralCases'
+import GeneralStatsCountries from './../Components/GeneralStatsCountries'
 import CountriesCasesMap from './../Components/CountriesCasesMap'
 
 import header_background from './../images/header_background.jpg'
@@ -28,36 +29,49 @@ const Home = ({API}) => {
     const[generalCases, setGeneralCases] = useState([]);
     const[historyCases, setHistoryCases] = useState([]);
     const[mapToolTipContent, setMapTooltipContent] = useState("");
+    const[showFullDetails,setShowFullDetails] = useState(false);
 
     const getCountriesData = () => {
-        axios.get(API.COUNTRIES_TOTAL)
-        .then(r => {
-            const highest = r.data[0].cases;
-            let withColors = [];
-            r.data.map(item => {
-                let percent = ((item.cases / highest) * 100);
-                let d = item;
-                d.percent = percent;
-                let cc = getColorForPercentage(percent)
-                d.color = cc;
-                withColors.push(d);
-                return d;
-            });
-            setCountriesTotal(withColors);
-        }).catch(e => {
-            console.log(e);
-        });
-
         axios.get(API.GENERAL_CASES)
         .then(r => {
             setGeneralCases(r.data);
-        }).catch(e => {
-            console.log(e);
-        });
+            axios.get(API.COUNTRIES_TOTAL)
+            .then(e => {
+                // const highest = r.data[0].cases;
+                // let withColors = [];
+                // r.data.map(item => {
+                //     let percent = ((item.cases / highest) * 100);
+                //     let d = item;
+                //     d.percent = percent;
+                //     let cc = getColorForPercentage(percent)
+                //     d.color = cc;
+                //     withColors.push(d);
+                //     return d;
+                // });
+                e.data.unshift({
+                    country : 'Global',
+                    countryInfo : {
+                        "iso2": "GW",
+                        "iso3": "GW",
+                        flag : 'http://clipart-library.com/images_k/globe-png-transparent/globe-png-transparent-23.png',
+                    },
+                    ...r.data
+                });
 
-        axios.get(API.HISTORY_CASES)
-        .then(r => {
-            setHistoryCases(r.data);
+                setCountriesTotal(e.data);
+
+
+                axios.get(API.HISTORY_CASES)
+                .then(v => {
+                    setHistoryCases(v.data);
+                }).catch(e => {
+                    console.log(e);
+                });
+
+            }).catch(ee => {
+                console.log(ee);
+            });
+
         }).catch(e => {
             console.log(e);
         });
@@ -80,8 +94,10 @@ const Home = ({API}) => {
                 background : `url(${header_background}) fixed no-repeat center center`,
                 backgroundSize : 'cover'
             }}><span>Covid-19 Online Updates</span></h1>
+
             <Container maxWidth="lg">
-                <GeneralCases generalCases={generalCases} countriesTotal={countriesTotal} historyCases={historyCases} />
+                <GeneralStatsCountries setGeneralCases={setGeneralCases} showFullDetails={showFullDetails} setShowFullDetails={setShowFullDetails} countriesTotal={countriesTotal} setHistoryCases={setHistoryCases} API={API} />
+                <GeneralCases generalCases={generalCases} showFullDetails={showFullDetails} historyCases={historyCases} />
                 {/* <CountriesCasesMap setTooltipContent={setMapTooltipContent} countriesTotal={countriesTotal} /> */}
                 <ReactTooltip>{mapToolTipContent}</ReactTooltip>
                 <CasesByCountryTable countriesTotal={countriesTotal} />

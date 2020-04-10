@@ -10,7 +10,7 @@ import './Sass/App.scss';
 import Home from './Pages/Home'
 import Footer from './Components/Footer'
 function App() {
-  const dev = true;
+  const dev = false;
 
   let config;
   const base = '/covid-statics';
@@ -21,6 +21,7 @@ function App() {
         'COUNTRIES_TOTAL' : 'http://localhost/covid-statics/src/Caches/countries.json',
         'GENERAL_CASES' : 'http://localhost/covid-statics/src/Caches/all.json',
         'HISTORY_CASES' : 'http://localhost/covid-statics/src/Caches/history.json',
+        'HISTORY_CASES_COUNTRY' : 'https://corona.lmao.ninja/v2/historical/',
       }
     };
   }else{
@@ -29,6 +30,7 @@ function App() {
         'COUNTRIES_TOTAL' : 'https://corona.lmao.ninja/countries',
         'GENERAL_CASES' : 'https://corona.lmao.ninja/all',
         'HISTORY_CASES' : 'https://corona.lmao.ninja/v2/historical/all?lastdays=30',
+        'HISTORY_CASES_COUNTRY' : 'https://corona.lmao.ninja/v2/historical/',
       }
     };
   }

@@ -63,6 +63,59 @@
         padding : 10px;
     }
 
+    #GeneralStatsCountries{
+        margin-bottom : 30px;
+        .MuiGrid-container{
+            display : flex;
+            align-items: center;
+            padding : 10px 15px;
+        }
+        .box{
+            width : 100%;
+            text-align: center;
+            .number{
+                font-weight: bold;
+                font-size : 40px;
+                display : block;
+                padding : 20px 7.5px;
+            }
+            .name{
+                font-weight: bold;
+                font-size : 20px;
+                display : block;
+                padding : 7.5px;
+            }
+        }
+        .cases{
+            color : #E53E3E;
+            .number{
+                background-color: #FFF5F5;
+            }
+            .name{
+                background-color : #FED7D7;
+            }
+        }
+
+        .recovered{
+            color : green;
+            .number{
+                background-color: #F0FFF4;
+            }
+            .name{
+                background-color : #C6F6D5;
+            }
+        }
+        .deaths{
+            color : #718096;
+            .number{
+                background-color: #EDF2F7;
+            }
+            .name{
+                background-color : #CBD5E0;
+            }
+        }
+    }
+
     .general-cases{
         margin-bottom : 50px;
         .general-paper{
