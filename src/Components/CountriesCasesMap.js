@@ -7,6 +7,7 @@ import {
     Geography
   } from "react-simple-maps";
 import {Paper} from '@material-ui/core';
+import PaperOptions from './PaperOptions'
 
 const geoUrl = require('./../Caches/worldMap.json');
 
@@ -18,7 +19,8 @@ const CountriesCasesMap = ({ setTooltipContent, countriesTotal }) => {
     return (
       <div className="CountriesCasesMap">
             <h1 className="text-center">Countries Cases Map</h1>
-            <Paper>
+            <Paper id="CountriesCasesMap">
+                <PaperOptions ID="CountriesCasesMap" />
                 <ComposableMap data-tip="" projectionConfig={{ scale: 180 }}>
                     <ZoomableGroup>
                         <Geographies geography={geoUrl}>

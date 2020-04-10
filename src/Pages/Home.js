@@ -98,7 +98,7 @@ const Home = ({API}) => {
             <Container maxWidth="lg">
                 <GeneralStatsCountries setGeneralCases={setGeneralCases} showFullDetails={showFullDetails} setShowFullDetails={setShowFullDetails} countriesTotal={countriesTotal} setHistoryCases={setHistoryCases} API={API} />
                 <GeneralCases generalCases={generalCases} showFullDetails={showFullDetails} historyCases={historyCases} />
-                {/* <CountriesCasesMap setTooltipContent={setMapTooltipContent} countriesTotal={countriesTotal} /> */}
+                <CountriesCasesMap setTooltipContent={setMapTooltipContent} countriesTotal={countriesTotal} />
                 <ReactTooltip>{mapToolTipContent}</ReactTooltip>
                 <CasesByCountryTable countriesTotal={countriesTotal} />
             </Container>
