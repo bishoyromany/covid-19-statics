@@ -27,8 +27,8 @@ function App() {
   }else{
     config = {
       'API' : {
-        'COUNTRIES_TOTAL' : 'https://corona.lmao.ninja/countries',
-        'GENERAL_CASES' : 'https://corona.lmao.ninja/all',
+        'COUNTRIES_TOTAL' : 'https://corona.lmao.ninja/v2/countries',
+        'GENERAL_CASES' : 'https://corona.lmao.ninja/v2/all',
         'HISTORY_CASES' : 'https://corona.lmao.ninja/v2/historical/all?lastdays=30',
         'HISTORY_CASES_COUNTRY' : 'https://corona.lmao.ninja/v2/historical/',
       }
